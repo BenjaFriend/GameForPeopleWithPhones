@@ -19,7 +19,6 @@ public struct AccelData
 /// </summary>
 public class InputManager : SingletonBehaviour<InputManager>
 {
-    private Rewired.Player _player;
     private AccelData _accelData;
 
     public AccelData AccelData
@@ -37,9 +36,6 @@ public class InputManager : SingletonBehaviour<InputManager>
     protected override void Awake()
     {
         base.Awake(); // set or replace instance
-
-        // get rewired player
-        _player = Rewired.ReInput.players.GetPlayer(0);
     }
 
     private void OnDestroy()
