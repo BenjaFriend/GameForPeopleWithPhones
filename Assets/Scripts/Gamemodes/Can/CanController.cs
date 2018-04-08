@@ -6,6 +6,9 @@ public class CanController : MonoBehaviour
 {
     public float Health = 100f;
 
+    public float WiggleDampening = 1f;
+    public GameObject Renderer;
+
     private void Start()
     {
         // add shake event listener
@@ -22,6 +25,12 @@ public class CanController : MonoBehaviour
         {
             _onCanBroken();
         }
+    }
+
+    private void Update()
+    {
+        // wiggle
+        Renderer.transform.localPosition = InputManager.Instance.AccelData.Delta * WiggleDampening;
     }
 
     private void _onCanBroken()
