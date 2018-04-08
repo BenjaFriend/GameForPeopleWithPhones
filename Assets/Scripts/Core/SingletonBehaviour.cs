@@ -29,12 +29,18 @@ public abstract class SingletonBehaviour<T> : MonoBehaviour where T : SingletonB
         if (instance == null)
         {
             setInstance();
-            DontDestroyOnLoad(this);
         }
         else if(instance != this)
         {
             replaceInstance();
         }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // release instance
+        if (instance == this)
+            instance = null;
     }
 
     /// <summary>

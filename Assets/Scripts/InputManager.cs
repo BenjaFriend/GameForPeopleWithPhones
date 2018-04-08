@@ -31,6 +31,7 @@ public class InputManager : SingletonBehaviour<InputManager>
     protected override void setInstance()
     {
         instance = this;
+        DontDestroyOnLoad(this);
     }
 
     protected override void Awake()
