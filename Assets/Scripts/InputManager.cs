@@ -19,6 +19,8 @@ public struct AccelData
 /// </summary>
 public class InputManager : SingletonBehaviour<InputManager>
 {
+    public float DebugAccelMagnitude = 10f;
+
     private AccelData _accelData;
 
     public AccelData AccelData
@@ -47,6 +49,13 @@ public class InputManager : SingletonBehaviour<InputManager>
     {
         _accelData.Last = AccelData.Current;
         _accelData.Current = Input.acceleration;
+
+        // debug input
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _accelData.Current = Vector3.up * DebugAccelMagnitude;
+        }
+
         if (_accelData.Last != _accelData.Current)
             dispatchAccelDataChangedEvent();
     }
