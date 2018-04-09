@@ -20,7 +20,7 @@ public class CanController : MonoBehaviour
         if (Health <= 0) return; // don't do anything if already broken
 
         // "hurt" can
-        Health -= intensity;
+        Health -= intensity + 1f;
         if(Health <= 0)
         {
             _onCanBroken();
