@@ -1,18 +1,41 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CanController : MonoBehaviour
 {
+    /* Editor exposed attributes */
+    [Header("Game variables")]
     public float Health = 100f;
 
+    [Space()]
+    [Header("Visual")]
+    public GameObject RendererObject;
+    public Sprite ExplodedSprite;
     public float WiggleDampening = 1f;
-    public GameObject Renderer;
+
+    /* Non-serialized public attributes */
+    public Action OnCanBrokenEvent;
+
+
+    private SpriteRenderer canRenderer;
 
     private void Start()
     {
         // add shake event listener
         CanGameManager.Instance.OnCanShakeEvent += _onShakeEvent;
+        InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
+
+        // get can renderer
+        canRenderer = RendererObject.GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void OnDestroy()
+    {
+        // remove event listeners
+        CanGameManager.Instance.OnCanShakeEvent -= _onShakeEvent;
+        InputManager.Instance.OnAccelDataChanged -= _onAccelDataChanged;
     }
 
     private void _onShakeEvent(float intensity)
@@ -27,14 +50,23 @@ public class CanController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void _onAccelDataChanged(AccelData data)
     {
         // wiggle
-        Renderer.transform.localPosition = InputManager.Instance.AccelData.Delta * WiggleDampening;
+        RendererObject.transform.localPosition = data.Delta * WiggleDampening;
     }
 
     private void _onCanBroken()
     {
-        Debug.Log("[CanController] Can broken!!");
+        // set sprite to open can
+        canRenderer.sprite = ExplodedSprite;
+
+        _dispatchOnCanBroken();
+    }
+
+    private void _dispatchOnCanBroken()
+    {
+        if (OnCanBrokenEvent != null)
+            OnCanBrokenEvent();
     }
 }
