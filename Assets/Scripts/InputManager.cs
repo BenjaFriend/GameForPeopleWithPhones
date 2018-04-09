@@ -47,7 +47,8 @@ public class InputManager : SingletonBehaviour<InputManager>
     {
         _accelData.Last = AccelData.Current;
         _accelData.Current = Input.acceleration;
-        dispatchAccelDataChangedEvent();
+        if (_accelData.Last != _accelData.Current)
+            dispatchAccelDataChangedEvent();
     }
 
     private void dispatchAccelDataChangedEvent()
