@@ -67,8 +67,9 @@ public class CanController : MonoBehaviour
     {
         canRenderer.sprite = ExplodedSprite;
         FoamParticleSystem.gameObject.SetActive(true);
+#if UNITY_ANDROID || UNITY_IOS
         Handheld.Vibrate();
-
+#endif
         _dispatchOnCanBroken();
     }
 

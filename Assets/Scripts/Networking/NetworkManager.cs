@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class NetworkManager : MonoBehaviour
 {
+    public GameObject PlayerPrefab;
+
     private const int _maxPlayers = 4;
     private const int _port = 250000;
     private const string _typeName = "GFPP_F";
@@ -26,6 +28,7 @@ public class NetworkManager : MonoBehaviour
     void OnServerInitialized()
     {
         Debug.Log("[NetworkManager] Server Initializied");
+        // Spawn the player
     }
 
 
@@ -48,6 +51,12 @@ public class NetworkManager : MonoBehaviour
     void OnConnectedToServer()
     {
         Debug.Log("Server Joined");
+        // Spawn player
+    }
+
+    private void spawnPlayer()
+    {
+        Network.Instantiate(PlayerPrefab, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
     }
 
     void OnGUI()
