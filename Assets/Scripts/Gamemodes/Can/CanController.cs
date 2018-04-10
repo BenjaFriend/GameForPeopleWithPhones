@@ -13,6 +13,7 @@ public class CanController : MonoBehaviour
     [Header("Visual")]
     public GameObject RendererObject;
     public Sprite ExplodedSprite;
+    public ParticleSystem FoamParticleSystem;
     public float WiggleDampening = 1f;
 
     /* Non-serialized public attributes */
@@ -21,14 +22,20 @@ public class CanController : MonoBehaviour
 
     private SpriteRenderer canRenderer;
 
+    private void Awake()
+    {
+        // disable foam particle system (if active)
+        FoamParticleSystem.gameObject.SetActive(false);
+
+        // get can renderer
+        canRenderer = RendererObject.GetComponentInChildren<SpriteRenderer>();
+    }
+
     private void Start()
     {
         // add shake event listener
         CanGameManager.Instance.OnCanShakeEvent += _onShakeEvent;
         InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
-
-        // get can renderer
-        canRenderer = RendererObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     private void OnDestroy()
@@ -58,8 +65,8 @@ public class CanController : MonoBehaviour
 
     private void _onCanBroken()
     {
-        // set sprite to open can
         canRenderer.sprite = ExplodedSprite;
+        FoamParticleSystem.gameObject.SetActive(true);
 
         _dispatchOnCanBroken();
     }
