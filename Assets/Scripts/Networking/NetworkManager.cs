@@ -9,14 +9,20 @@ using UnityEngine;
 /// </summary>
 public class NetworkManager : MonoBehaviour
 {
+    #region Fields
+
     public GameObject PlayerPrefab;
+    public Transform PlayerSpawn;
 
     private const int _maxPlayers = 4;
-    private const int _port = 250000;
+    private const int _port = 25000;
+
     private const string _typeName = "GFPP_F";
     private const string _gameName = "RoomName";
+
     private HostData[] _hostList;
 
+    #endregion
 
     private void StartServer()
     {
@@ -25,38 +31,40 @@ public class NetworkManager : MonoBehaviour
         MasterServer.RegisterHost(_typeName, _gameName);
     }
 
-    void OnServerInitialized()
+    private void OnServerInitialized()
     {
         Debug.Log("[NetworkManager] Server Initializied");
         // Spawn the player
     }
 
-
-    private void RefreshHostList()
+    private void refreshHostList()
     {
         MasterServer.RequestHostList(_typeName);
     }
 
-    void OnMasterServerEvent(MasterServerEvent msEvent)
+    private void OnMasterServerEvent(MasterServerEvent msEvent)
     {
         if (msEvent == MasterServerEvent.HostListReceived)
+        {
             _hostList = MasterServer.PollHostList();
+        }
     }
 
-    private void JoinServer(HostData hostData)
+    private void joinServer(HostData hostData)
     {
         Network.Connect(hostData);
     }
 
-    void OnConnectedToServer()
+    private void OnConnectedToServer()
     {
-        Debug.Log("Server Joined");
+        Debug.Log("[NetworkManager] OnConnectedToServer :: Server Joined");
         // Spawn player
+        spawnPlayer();
     }
 
     private void spawnPlayer()
     {
-        Network.Instantiate(PlayerPrefab, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+        Network.Instantiate(PlayerPrefab, PlayerSpawn.position, PlayerSpawn.rotation, 0);
     }
 
     void OnGUI()
@@ -67,14 +75,14 @@ public class NetworkManager : MonoBehaviour
                 StartServer();
 
             if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
-                RefreshHostList();
+                refreshHostList();
 
             if (_hostList != null)
             {
                 for (int i = 0; i < _hostList.Length; i++)
                 {
                     if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), _hostList[i].gameName))
-                        JoinServer(_hostList[i]);
+                        joinServer(_hostList[i]);
                 }
             }
         }
