@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanController : MonoBehaviour
+public class CanController : SingletonBehaviour<CanController>
 {
     /* Editor exposed attributes */
     [Header("Game variables")]
@@ -30,8 +30,15 @@ public class CanController : MonoBehaviour
 
     private SpriteRenderer canRenderer;
 
-    private void Awake()
+    protected override void setInstance()
     {
+        instance = this;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
         // disable foam particle system (if active)
         FoamParticleSystem.gameObject.SetActive(false);
 
@@ -48,8 +55,9 @@ public class CanController : MonoBehaviour
         InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         // remove event listeners
         CanGameManager.Instance.OnCanShakeEvent -= _onShakeEvent;
         InputManager.Instance.OnAccelDataChanged -= _onAccelDataChanged;
