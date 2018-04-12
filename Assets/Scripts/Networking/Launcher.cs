@@ -7,7 +7,7 @@ namespace Com.PodSquad.GDPPNF
     {
         #region Fields
 
-        static string roomNamePrefKey = "RoomName";
+        private static string roomNamePrefKey = "RoomName";
 
         [Header("Network UI")]
         [Tooltip("The UI panel to lket the user enter theirr name, connect and play")]
@@ -136,7 +136,7 @@ namespace Com.PodSquad.GDPPNF
         {
             Debug.Log("<color=red>[Launcher]</color>  OnJoinedRoom() called by PUN. Now this client is in a room. \nRoom name is: " + PhotonNetwork.room.Name);
 
-            // Load the level that we want (We want the one with all the options of minigames to play)
+            // When you connect to the room, then you should load in the level for the games
             PhotonNetwork.LoadLevel("Room Test 1");
         }
 
