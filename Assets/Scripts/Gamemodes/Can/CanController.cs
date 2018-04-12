@@ -58,9 +58,9 @@ public class CanController : MonoBehaviour
     private void _onShakeEvent(float intensity)
     {
         if (Health <= 0) return; // don't do anything if already broken
-
+        
         _playRandomShake(); // play a random shake sound effect, hopefully the pool size is gucci enough at 10 for max shakes/second :)
-
+        
         // "hurt" can
         Health -= intensity + 1f;
         if(Health <= 0)
@@ -100,6 +100,10 @@ public class CanController : MonoBehaviour
     private void _playRandomShake()
     {
         int random = rando.Next(2);
+<<<<<<< HEAD
+=======
+        Console.WriteLine(random);
+>>>>>>> master
 
         AudioManager.Instance.PlayOneShot(Shakes[random], AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name);
     }
