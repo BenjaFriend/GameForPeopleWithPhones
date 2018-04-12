@@ -6,14 +6,18 @@ namespace Com.PodSquad.GDPPNF
 { 
     public class MasterScoreViewer : Photon.PunBehaviour
     {
+        private int _currentCanScore = 0;
+
+        public UnityEngine.UI.Text logInfoText;
+
         // setup our OnEvent as callback:
         void OnEnable()
         {
-            PhotonNetwork.OnEventCall += this.OnEvent;
+            PhotonNetwork.OnEventCall += this.onEvent;
         }
         void OnDisable()
         {
-            PhotonNetwork.OnEventCall -= this.OnEvent;
+            PhotonNetwork.OnEventCall -= this.onEvent;
         }
 
         public override void OnJoinedRoom()
@@ -22,15 +26,22 @@ namespace Com.PodSquad.GDPPNF
         }
 
         // handle custom events:
-        void OnEvent(byte eventcode, object content, int senderid)
+        private void onEvent(byte eventcode, object content, int senderid)
         {
             Debug.Log("[MasterScoreViewer] We have recieved a riaseEvent!");
 
             if (eventcode == 0)
             {
                 Debug.Log("[MasterScoreViewer] We have recieved a riaseEvent!");
+                ++_currentCanScore;
+
+                if(logInfoText != null)
+                {
+                    logInfoText.text = "Current Score: " + _currentCanScore.ToString();
+                }
 
                 PhotonPlayer sender = PhotonPlayer.Find(senderid);  // who sent this?
+                
                 byte[] selected = content as byte[];
                 for (int i = 0; i < selected.Length; i++)
                 {
