@@ -3847,6 +3847,12 @@ MonoBehaviour:
   ExplodedSprite: {fileID: 21300000, guid: bebd255b239039e42a95ccc895711973, type: 3}
   FoamParticleSystem: {fileID: 1676967066}
   WiggleDampening: 0.1
+  Shakes:
+  - {fileID: 8300000, guid: 585f3f63b22454542a6456fa983684d5, type: 3}
+  - {fileID: 8300000, guid: 8bb86a4ec98498c4ea6aa6f92edbd410, type: 3}
+  - {fileID: 8300000, guid: 0ec000773d0df5a4c9e0bfbf8b201c92, type: 3}
+  Fizz: {fileID: 8300000, guid: 09d853ff8c446b94e8d958a96e39d885, type: 3}
+  OpenTab: {fileID: 8300000, guid: 310a98d656101c947902799562bf0c7a, type: 3}
 --- !u!4 &1722175065
 Transform:
   m_ObjectHideFlags: 0
