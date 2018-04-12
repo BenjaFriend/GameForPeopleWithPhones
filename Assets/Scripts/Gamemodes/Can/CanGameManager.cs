@@ -18,6 +18,7 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
     private void Start()
     {
         InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
+        CanController.Instance.OnCanBrokenEvent += _onCanBroken;
     }
 
     private void _onAccelDataChanged(AccelData data)
@@ -34,4 +35,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             OnCanShakeEvent(intensity);
     }
 
+    private void _onCanBroken()
+    {
+        GameOverlay.Instance.SetText("You win!");
+        GameOverlay.Instance.FadeIn(0.6f);
+    }
 }
