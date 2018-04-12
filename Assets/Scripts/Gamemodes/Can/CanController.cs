@@ -100,10 +100,7 @@ public class CanController : MonoBehaviour
     private void _playRandomShake()
     {
         int random = rando.Next(2);
-<<<<<<< HEAD
-=======
         Console.WriteLine(random);
->>>>>>> master
 
         AudioManager.Instance.PlayOneShot(Shakes[random], AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name);
     }
