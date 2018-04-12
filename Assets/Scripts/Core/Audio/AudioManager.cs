@@ -224,6 +224,9 @@ public class AudioManager : MonoBehaviour
             _inactiveSources.Add(g, new Stack<PooledAudioSource>());
             _populatePool(g);
         }
+
+        SetPoolSize(AudioPoolType.Music, Constants.AudioPoolSize.Music);
+        SetPoolSize(AudioPoolType.SFX, Constants.AudioPoolSize.SFX);
     }
 
     private void _populatePool(AudioPoolType g)
