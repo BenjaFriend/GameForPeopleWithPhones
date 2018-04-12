@@ -13,8 +13,23 @@
         {
             public static class Master
             {
-                public static string Name = "Master";
+                public const string Name = "Master";
+                public static class SFX
+                {
+                    public const string Name = Master.Name + "/SFX";
+                }
+
+                public static class Music
+                {
+                    public const string Name = Master.Name + "/Music";
+                }
             }
         }
+    }
+
+    public static class AudioPoolSize
+    {
+        public const uint Music = 2;
+        public const uint SFX = 10;
     }
 }
