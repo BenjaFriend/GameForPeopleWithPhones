@@ -16,6 +16,14 @@ public class CanController : SingletonBehaviour<CanController>
     public ParticleSystem FoamParticleSystem;
     public float WiggleDampening = 1f;
 
+    [Space()]
+    [Header("SFX")]
+    public AudioClip[] Shakes;
+    public AudioClip Fizz;
+    public AudioClip OpenTab;
+
+    private System.Random rando;
+
     /* Non-serialized public attributes */
     public Action OnCanBrokenEvent;
 
@@ -36,6 +44,8 @@ public class CanController : SingletonBehaviour<CanController>
 
         // get can renderer
         canRenderer = RendererObject.GetComponentInChildren<SpriteRenderer>();
+
+        rando = new System.Random();
     }
 
     private void Start()
@@ -56,11 +66,16 @@ public class CanController : SingletonBehaviour<CanController>
     private void _onShakeEvent(float intensity)
     {
         if (Health <= 0) return; // don't do anything if already broken
-
+        
+        _playRandomShake(); // play a random shake sound effect, hopefully the pool size is gucci enough at 10 for max shakes/second :)
+        
         // "hurt" can
         Health -= intensity + 1f;
         if(Health <= 0)
         {
+            AudioManager.Instance.PlayOneShot(OpenTab, AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name); // get that crunch tab open effect
+            AudioManager.Instance.PlayOneShot(Fizz, AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name); // immediately layering over some fizz
+
             _onCanBroken();
         }
     }
@@ -87,4 +102,14 @@ public class CanController : SingletonBehaviour<CanController>
             OnCanBrokenEvent();
     }
 
+    /// <summary>
+    /// Play a random shake from within the Shakes AudioClip array
+    /// </summary>
+    private void _playRandomShake()
+    {
+        int random = rando.Next(2);
+        Console.WriteLine(random);
+
+        AudioManager.Instance.PlayOneShot(Shakes[random], AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name);
+    }
 }
