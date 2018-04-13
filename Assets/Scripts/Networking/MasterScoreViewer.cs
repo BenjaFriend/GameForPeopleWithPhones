@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
 namespace Com.PodSquad.GDPPNF
 { 
-    public class MasterScoreViewer : Photon.PunBehaviour
+    public class MasterScoreViewer : PunBehaviour
     {
         private int _currentCanScore = 0;
 
@@ -49,6 +50,13 @@ namespace Com.PodSquad.GDPPNF
                     // do something
                 }
             }
+        }
+
+        private void OnGUI()
+        {
+            string playerNote = (PhotonNetwork.isMasterClient) ? "You are the Master Client" : "Nope";
+            GUI.Label(new Rect(10, 100, 150, 20), playerNote);
+
         }
     }
 }

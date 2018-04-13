@@ -6,6 +6,8 @@ using UnityEngine;
 public class CanGameManager : SingletonBehaviour<CanGameManager>
 {
     public float ShakeThreshold;
+    [Space(10)]
+    public bool ShowDebug = false;
 
     public Action<float> OnCanShakeEvent;
 
@@ -30,7 +32,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
 
     private void _dispatchShakeEvent(float intensity)
     {
-        Debug.LogFormat("[CanGameManager] Shake!! Intensity: {0}", intensity);
+        if(ShowDebug)
+            Debug.LogFormat("[CanGameManager] Shake!! Intensity: {0}", intensity);
+
         if (OnCanShakeEvent != null)
             OnCanShakeEvent(intensity);
     }

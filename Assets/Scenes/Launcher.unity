@@ -717,6 +717,7 @@ GameObject:
   - component: {fileID: 465906818}
   - component: {fileID: 465906817}
   - component: {fileID: 465906816}
+  - component: {fileID: 465906819}
   m_Layer: 5
   m_Name: Room List [Prefabs generated here]
   m_TagString: Untagged
@@ -797,6 +798,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 465906814}
+--- !u!114 &465906819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 465906814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3308ab08983381d4eaec9a9670d7925f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDebug: 1
+  RoomInfoPrefab: {fileID: 1760754868192978, guid: 5305c9b72a6a7b54fbfd77047ca807f9,
+    type: 2}
 --- !u!1 &471327731
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,11 +913,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc99c8f0e6742214f97b696de2b2f143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowDebug: 1
   ControlPanel: {fileID: 142645696}
   ProgressLabel: {fileID: 2117471588}
-  RoomInfoPrefab: {fileID: 1760754868192978, guid: 5305c9b72a6a7b54fbfd77047ca807f9,
-    type: 2}
-  RoomInfoParentObject: {fileID: 465906815}
   Loglevel: 0
   MaxPlayersPerRoom: 4
 --- !u!4 &552820440

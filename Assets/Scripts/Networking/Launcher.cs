@@ -7,6 +7,8 @@ namespace Com.PodSquad.GDPPNF
     {
         #region Fields
 
+        public bool ShowDebug = true;
+
         private static string roomNamePrefKey = "RoomName";
 
         [Header("Network UI")]
@@ -14,10 +16,6 @@ namespace Com.PodSquad.GDPPNF
         public GameObject ControlPanel;
         [Tooltip("The UI Label to inform the user htat the connection is in progress")]
         public GameObject ProgressLabel;
-        [Tooltip("The prefab that you want the text to be set for showing the list of rooms")]
-        public GameObject RoomInfoPrefab;
-        [Tooltip("All room info objects will be added to this object.")]
-        public Transform RoomInfoParentObject;
 
         [Space(10)]
         public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
@@ -28,10 +26,11 @@ namespace Com.PodSquad.GDPPNF
         /// <summary>
         /// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
         /// </summary>
-        private string _gameVersion = "1";
+        private static string _gameVersion = "1";
         private string _roomName = null;
 
-        private RoomInfo[] _roomList;
+        public static string GameVersion { get { return _gameVersion;  } }
+
 
         #endregion
 
@@ -60,42 +59,13 @@ namespace Com.PodSquad.GDPPNF
         }
 
         #region Public Methods
+        
 
-        public void RefreshRoomList()
-        {
-            // Clear the previous rooms
-            if(RoomInfoParentObject == null)
-            {
-                Debug.LogError("<color=yellow>[Launcher]</color>Cannot refresh host list, the roomInfoPrefabParentObject is null!");
-                return;
-            }
-            foreach (Transform child in RoomInfoParentObject)
-            {
-                Destroy(child.gameObject);
-            }
-
-            // Grab the freshest room list
-            _roomList = PhotonNetwork.GetRoomList();
-            Debug.Log("<color=yellow>[Launcher]</color> Room List length: " + _roomList.Length.ToString());
-
-            // Create a new room list!
-            if (RoomInfoPrefab == null)
-            {
-                Debug.LogError("<color=yellow>[Launcher]</color>Cannot refresh host list, the roomInfoPrefab is null!");
-                return;
-            }
-            foreach(RoomInfo game in _roomList)
-            {
-                // Display this info to the plyare
-                RoomInfoPanel panel = Instantiate(RoomInfoPrefab, RoomInfoParentObject).GetComponent<RoomInfoPanel>();
-                panel.RoomNameText.text = game.Name;
-                panel.NumPlayersText.text = game.PlayerCount.ToString() + "/" + game.MaxPlayers.ToString();
-                panel.JoinRoombutton.onClick.AddListener(delegate { SetRoomName(game.Name); JoinOrCreateSpecificRoom(); });
-            }
-            Debug.Log("<color=yellow>[Launcher]</color> Room list refreshed!");
-
-        }
-
+        /// <summary>
+        /// Try and join a room with teh given room name from the user
+        ///  - If this room does not exist, then create it.
+        ///  - Show the "Connecting" UI
+        /// </summary>
         public void JoinOrCreateSpecificRoom()
         {
             ProgressLabel.SetActive(true);
@@ -103,7 +73,7 @@ namespace Com.PodSquad.GDPPNF
 
             if (PhotonNetwork.connected)
             {
-                PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
+                PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom, IsVisible = true }, null);
             }
             else
             {
@@ -141,54 +111,71 @@ namespace Com.PodSquad.GDPPNF
 
         #region Photon.PunBehaviour CallBacks
 
+        /// <summary>
+        /// When we successfully join a room, then load the proper level.
+        /// </summary>
+        public override void OnJoinedRoom()
+        {
+            if (ShowDebug)
+                Debug.Log("<color=yellow>[Launcher]</color>  OnJoinedRoom() called by PUN. Now this client is in a room. \nRoom name is: "
+                + PhotonNetwork.room.Name + " with " + PhotonNetwork.countOfPlayers.ToString() + " players");
+
+            PhotonNetwork.LoadLevel("Room Test 1");
+        }
+
+        /// <summary>
+        /// If we fail to join a random room, then make a new random room. 
+        /// </summary>
+        /// <param name="codeAndMsg"></param>
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
         {
-            Debug.Log("<color=yellow>[Launcher]</color> OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
+            if(ShowDebug)
+                Debug.Log("<color=yellow>[Launcher]</color> OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
             CreateRandomRoom();
         }
 
-        public override void OnJoinedRoom()
-        {
-            Debug.Log("<color=yellow>[Launcher]</color>  OnJoinedRoom() called by PUN. Now this client is in a room. \nRoom name is: " 
-                + PhotonNetwork.room.Name + " with " + PhotonNetwork.countOfPlayers.ToString() + " players");
-
-            if(PhotonNetwork.countOfPlayers == 1)
-            {
-                // When you connect to the room, then you should load in the level for the games
-                PhotonNetwork.LoadLevel("Server Room");
-            }
-            else
-            {
-                // When you connect to the room, then you should load in the level for the games
-                PhotonNetwork.LoadLevel("Room Test 1");
-            }
-
-        }
-
+        /// <summary>
+        /// We are connected to the master server, which just means the Photon cloud services
+        /// that are used to match make the rooms.
+        /// </summary>
         public override void OnConnectedToMaster()
         {
-            Debug.Log("<color=yellow>[Launcher]</color>  OnConnectedToMaster() was called by PUN");
-            
+            if (ShowDebug)
+                Debug.Log("<color=yellow>[Launcher]</color>  OnConnectedToMaster() was called by PUN");       
         }
 
+        /// <summary>
+        /// When we disconnect from photon master server, allow us to connect to it again if we want to
+        /// </summary>
         public override void OnDisconnectedFromPhoton()
         {
             ProgressLabel.SetActive(false);
             ControlPanel.SetActive(true);
-            Debug.LogWarning("<color=yellow>[Launcher]</color>  OnDisconnectedFromPhoton() was called by PUN");
+            if (ShowDebug)
+                Debug.LogWarning("<color=yellow>[Launcher]</color>  OnDisconnectedFromPhoton() was called by PUN");
         }
 
+        /// <summary>
+        /// Show the debug info if we fail to join a specific room.
+        /// </summary>
+        /// <param name="codeAndMsg">Debug info from PUN</param>
         public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
         {
-            Debug.LogWarningFormat(
+            if (ShowDebug)
+                Debug.LogWarningFormat(
                 "<color=yellow>[Launcher]</color>  OnPhotonJoinRoomFailed() was called by PUN\nError Code {0} {1}",
                  codeAndMsg[0], codeAndMsg[1]);
         }
 
+        /// <summary>
+        /// Show the debug info if we fail to create a room. 
+        /// </summary>
+        /// <param name="codeAndMsg">Debug info from PUN</param>
         public override void OnPhotonCreateRoomFailed(object[] codeAndMsg)
         {
-            Debug.LogWarningFormat(
+            if (ShowDebug)
+                Debug.LogWarningFormat(
                 "<color=yellow>[Launcher]</color>  OnPhotonCreateRoomFailed() was called by PUN\nError Code {0} {1}",
                  codeAndMsg[0], codeAndMsg[1]);
         }
