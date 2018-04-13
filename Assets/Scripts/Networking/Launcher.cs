@@ -40,7 +40,7 @@ namespace Com.PodSquad.GDPPNF
             PhotonNetwork.autoJoinLobby = false;
 
             // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
-            //PhotonNetwork.automaticallySyncScene = true;
+            PhotonNetwork.automaticallySyncScene = true;
 
             // Force the log level to this
             PhotonNetwork.logLevel = Loglevel;
@@ -120,7 +120,7 @@ namespace Com.PodSquad.GDPPNF
                 Debug.Log("<color=yellow>[Launcher]</color>  OnJoinedRoom() called by PUN. Now this client is in a room. \nRoom name is: "
                 + PhotonNetwork.room.Name + " with " + PhotonNetwork.countOfPlayers.ToString() + " players");
 
-            PhotonNetwork.LoadLevel("Room Test 1");
+            PhotonNetwork.LoadLevel("Lobby Room");
         }
 
         /// <summary>
