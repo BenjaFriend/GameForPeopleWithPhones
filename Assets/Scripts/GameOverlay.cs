@@ -10,6 +10,12 @@ public class GameOverlay : SingletonBehaviour<GameOverlay>
     public CanvasGroup OverlayGroup;
     public Image OverlayBackground;
 
+    [Header("Networking UI")]
+    public GameObject MasterClientUI;
+    public GameObject NormalClientUI;
+    public Image MasterGameOverScreen;
+    public Text MasterGameOverPlayerText;
+
     [Space()]
     [Header("Animation")]
     public float FadeInTime;
@@ -29,6 +35,47 @@ public class GameOverlay : SingletonBehaviour<GameOverlay>
     {
         SetText(string.Empty);
         OverlayGroup.alpha = 0f;
+
+        if(MasterGameOverScreen != null)
+        {
+            MasterGameOverScreen.gameObject.SetActive(false);
+        }        
+    }
+
+    public void SetNormalClientUI()
+    {
+        if (NormalClientUI != null)
+        {
+            NormalClientUI.SetActive(true);
+        }
+        if (MasterClientUI != null)
+        {
+            MasterClientUI.SetActive(false);
+        }
+    }
+
+    public void SetMasterClientUI()
+    {
+        if (MasterClientUI != null)
+        {
+            MasterClientUI.SetActive(true);
+        }
+        if (NormalClientUI != null)
+        {
+            NormalClientUI.SetActive(false);
+        }
+    }
+
+    public void SetMasterGameOver(string winningPlayer)
+    {
+        if (MasterGameOverScreen != null)
+        {
+            MasterGameOverScreen.gameObject.SetActive(true);
+        }
+        if(MasterGameOverPlayerText != null)
+        {
+            MasterGameOverPlayerText.text = winningPlayer + " popped first!";
+        }
     }
 
     public void SetText(string text)

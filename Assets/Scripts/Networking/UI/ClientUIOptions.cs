@@ -19,5 +19,10 @@ namespace Com.PodSquad.GDPPNF
         {
             PhotonNetwork.LeaveRoom();
         }
+
+        public void LoadLobbyScene()
+        {
+            PhotonNetwork.LoadLevel(Constants.SceneNames.LobbyRoom);
+        }
     }
 }

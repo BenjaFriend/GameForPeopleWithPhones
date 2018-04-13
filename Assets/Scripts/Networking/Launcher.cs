@@ -127,7 +127,7 @@ namespace Com.PodSquad.GDPPNF
                 Debug.Log("<color=yellow>[Launcher]</color>  OnJoinedRoom() called by PUN. Now this client is in a room. \nRoom name is: "
                 + PhotonNetwork.room.Name + " with " + PhotonNetwork.countOfPlayers.ToString() + " players");
 
-            PhotonNetwork.LoadLevel("Lobby Room");
+            PhotonNetwork.LoadLevel(Constants.SceneNames.LobbyRoom);
         }
 
         /// <summary>

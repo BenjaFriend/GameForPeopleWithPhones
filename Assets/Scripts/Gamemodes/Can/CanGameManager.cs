@@ -10,9 +10,7 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
     public bool ShowDebug = false;
 
     public GameObject CanPrefab;
-    public GameObject MasterClientUI;
-    public GameObject NormalClientUI;
-
+    
     public Action<float> OnCanShakeEvent;
 
     protected override void setInstance()
@@ -34,28 +32,13 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
                 Instantiate(CanPrefab);
                 DebugString("Create a can locally!");
             }
-            if(NormalClientUI != null)
-            {
-                NormalClientUI.SetActive(true);
-            }
-            if(MasterClientUI != null)
-            {
-                MasterClientUI.SetActive(false);
-            }
+            GameOverlay.Instance.SetNormalClientUI();
         }
         // We are the master client, so do NOT make a can for us
         else
         {
             DebugString(" Set the master UI!");
-
-            if (MasterClientUI != null)
-            {
-                MasterClientUI.SetActive(true);
-            }
-            if(NormalClientUI != null)
-            {
-                NormalClientUI.SetActive(false);
-            }
+            GameOverlay.Instance.SetMasterClientUI();
         }
     }
 
@@ -65,7 +48,6 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
         //CanController.Instance.OnCanBrokenEvent += _onCanBroken;
         PhotonNetwork.OnEventCall += _onEvent;
     }
-
 
     private void OnDisable()
     {
@@ -96,11 +78,19 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             // If we are the master client, do this stuff
             if (PhotonNetwork.player.IsMasterClient)
             {
-                DebugString("Recieved a network call that the can has broken ON MASTER CLIENT.");
+                DebugString("Recieved a network call that the can has broken ON MASTER CLIENT. Sender ID" + senderid.ToString());
+
+                object[] selected = content as object[];
+                string name = selected[0] as string;
+
+                // Do not allow any other player to say that they broke!
+                GameOverlay.Instance.SetMasterGameOver(name);
             }
             else
             {
                 DebugString("Recieved a network call that the can has broken on normal client.");
+                GameOverlay.Instance.SetText("You popped your can!");
+                GameOverlay.Instance.FadeIn(0.6f);
             }
         }
     }

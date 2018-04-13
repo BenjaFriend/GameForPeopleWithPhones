@@ -98,9 +98,9 @@ public class CanController : SingletonBehaviour<CanController>
 
     private void _dispatchOnCanBroken()
     {
-
-        byte evCode = (byte)Constants.EVENT_ID.CAN_BROKE; 
-        byte[] content = new byte[] { 1 };  
+        // Send this event over the network to the master client (the web view)
+        byte evCode = (byte)Constants.EVENT_ID.CAN_BROKE;
+        object[] content = { PhotonNetwork.player.NickName , PhotonNetwork.player.ID };  
         bool reliable = true;
         RaiseEventOptions options = new RaiseEventOptions()
         {
@@ -112,7 +112,6 @@ public class CanController : SingletonBehaviour<CanController>
             reliable,
             options
        );
-
 
         if (OnCanBrokenEvent != null)
             OnCanBrokenEvent();

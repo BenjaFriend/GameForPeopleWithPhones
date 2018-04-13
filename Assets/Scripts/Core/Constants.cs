@@ -6,6 +6,13 @@
         public const string GyroForward = "Forward";
     }
 
+    public static class SceneNames
+    {
+        public const string Launcher = "Launcher";
+        public const string LobbyRoom = "Lobby Room";
+        public const string CanGame = "CanDemo";
+    }
+
     public enum EVENT_ID : byte
     {
         CAN_BROKE = 0,
