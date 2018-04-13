@@ -5,7 +5,7 @@ using UnityEngine;
 /// Parent class for singleton MonoBehaviours. 
 /// </summary>
 /// <typeparam name="T">The type of the child class</typeparam>
-public abstract class SingletonBehaviour<T> : MonoBehaviour where T : SingletonBehaviour<T>
+public abstract class SingletonBehaviour<T> : Photon.PunBehaviour where T : SingletonBehaviour<T>
 {
     protected static T instance;
     public static T Instance

@@ -6,6 +6,12 @@
         public const string GyroForward = "Forward";
     }
 
+    public enum EVENT_ID : byte
+    {
+        CAN_BROKE = 0,
+        CAN_SHAKE = 1        
+    }
+
     public static class Mixer
     {
         public static string Path = "Audio/MainMixer";

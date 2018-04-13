@@ -73,7 +73,14 @@ namespace Com.PodSquad.GDPPNF
 
             if (PhotonNetwork.connected)
             {
-                PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom, IsVisible = true }, null);
+                RoomOptions options = new RoomOptions()
+                {
+                    MaxPlayers = MaxPlayersPerRoom,
+                    IsVisible = true
+                    // TODO: Make a hashtable??
+                };
+
+                PhotonNetwork.JoinOrCreateRoom(_roomName, options, null);
             }
             else
             {

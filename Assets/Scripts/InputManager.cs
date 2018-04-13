@@ -41,12 +41,12 @@ public class InputManager : SingletonBehaviour<InputManager>
         base.Awake(); // set or replace instance
     }
 
-    private void OnDestroy()
-    {
-    }
+    private void OnDestroy() { }
 
     private void Update()
     {
+        // TODO: Only do this if it is a local PhotonView
+
         _accelData.Last = AccelData.Current;
         _accelData.Current = Input.acceleration;
 

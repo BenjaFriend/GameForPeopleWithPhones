@@ -98,6 +98,22 @@ public class CanController : SingletonBehaviour<CanController>
 
     private void _dispatchOnCanBroken()
     {
+
+        byte evCode = (byte)Constants.EVENT_ID.CAN_BROKE; 
+        byte[] content = new byte[] { 1 };  
+        bool reliable = true;
+        RaiseEventOptions options = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.MasterClient  // Onl send this event to the master client
+        };
+        PhotonNetwork.RaiseEvent(
+            evCode,
+            content,
+            reliable,
+            options
+       );
+
+
         if (OnCanBrokenEvent != null)
             OnCanBrokenEvent();
     }

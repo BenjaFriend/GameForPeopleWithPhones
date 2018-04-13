@@ -16,16 +16,36 @@ namespace Com.PodSquad.GDPPNF
         [Space(10)]
         [Header("UI")]
         public GameObject MasterClientOptions;
+        public GameObject NormalClientOptions;
         public UnityEngine.UI.Text RoomNameText;
 
         private void Start()
         {
+            if (MasterClientOptions == null)
+            {
+                DebugString("Cannot show contiue because MasterClientOptions is null!");
+                return;
+            }
+            if (NormalClientOptions == null)
+            {
+                DebugString("Cannot show contiue because NormalClientOptions is null!");
+                return;
+            }
             MasterClientOptions.SetActive(false);
+            NormalClientOptions.SetActive(false);
 
             UpdateConnectedPlayers();
-            ShowMasterClientOptions();
 
-            if(RoomNameText != null)
+            if(PhotonNetwork.player.IsMasterClient)
+            {
+                ShowMasterClientOptions();
+            }
+            else
+            {
+                ShowNormalClientOptions();
+            }
+
+            if (RoomNameText != null)
             {
                 RoomNameText.text = PhotonNetwork.room.Name;
             }
@@ -37,18 +57,24 @@ namespace Com.PodSquad.GDPPNF
 
         private void ShowMasterClientOptions()
         {
-            // Only show the Gud Gud to the master client (hopefully the web view)
-            if(!PhotonNetwork.player.IsMasterClient) { return; }
-
             if(MasterClientOptions == null)
             {
                 DebugString("Cannot show contiue because MasterClientOptions is null!");
                 return;
             }
 
-            DebugString("Show the level selection options to the master client!");
-
             MasterClientOptions.SetActive(true);
+        }
+
+        private void ShowNormalClientOptions()
+        {
+            if (NormalClientOptions == null)
+            {
+                DebugString("Cannot show contiue because NormalClientOptions is null!");
+                return;
+            }
+
+            NormalClientOptions.SetActive(true);
         }
 
         /// <summary>
@@ -58,6 +84,22 @@ namespace Com.PodSquad.GDPPNF
         {
             DebugString("Someone has joined a room!");
             UpdateConnectedPlayers();
+
+            base.OnJoinedRoom();
+        }
+
+        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        {
+            DebugString("Someone has joined a room!");
+            UpdateConnectedPlayers();
+            base.OnPhotonPlayerConnected(newPlayer);
+        }
+
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+        {
+            DebugString("Someone has joined a room!");
+            UpdateConnectedPlayers();
+            base.OnPhotonPlayerDisconnected(otherPlayer);
         }
 
         /// <summary>
