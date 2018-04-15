@@ -33,6 +33,7 @@ public class CanController : SingletonBehaviour<CanController>
     protected override void setInstance()
     {
         instance = this;
+        // intentionally excluding DontDestroyOnLoad for CanController to let scene change destroy it
     }
 
     protected override void Awake()
@@ -59,19 +60,21 @@ public class CanController : SingletonBehaviour<CanController>
     {
         base.OnDestroy();
         // remove event listeners
-        CanGameManager.Instance.OnCanShakeEvent -= _onShakeEvent;
+        if (CanGameManager.Instance != null)
+            CanGameManager.Instance.OnCanShakeEvent -= _onShakeEvent;
+
         InputManager.Instance.OnAccelDataChanged -= _onAccelDataChanged;
     }
 
     private void _onShakeEvent(float intensity)
     {
         if (Health <= 0) return; // don't do anything if already broken
-        
+
         _playRandomShake(); // play a random shake sound effect, hopefully the pool size is gucci enough at 10 for max shakes/second :)
-        
+
         // "hurt" can
         Health -= intensity + 1f;
-        if(Health <= 0)
+        if (Health <= 0)
         {
             AudioManager.Instance.PlayOneShot(OpenTab, AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name); // get that crunch tab open effect
             AudioManager.Instance.PlayOneShot(Fizz, AudioPoolType.SFX, Constants.Mixer.Mixers.Master.SFX.Name); // immediately layering over some fizz
@@ -100,7 +103,7 @@ public class CanController : SingletonBehaviour<CanController>
     {
         // Send this event over the network to the master client (the web view)
         byte evCode = (byte)Constants.EVENT_ID.CAN_BROKE;
-        object[] content = { PhotonNetwork.player.NickName , PhotonNetwork.player.ID };  
+        object[] content = { PhotonNetwork.player.NickName, PhotonNetwork.player.ID };
         bool reliable = true;
         RaiseEventOptions options = new RaiseEventOptions()
         {
