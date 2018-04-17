@@ -141,11 +141,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed6e17478d0c3a4e9d2034e153003b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
+  Health: 180
   RendererObject: {fileID: 1801872463049968}
-  ExplodedSprite: {fileID: 21300000, guid: bebd255b239039e42a95ccc895711973, type: 3}
+  VisualStates:
+  - Sprite: {fileID: 21300000, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 100
+  - Sprite: {fileID: 21300002, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 80
+  - Sprite: {fileID: 21300004, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 60
+  - Sprite: {fileID: 21300006, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 40
+  - Sprite: {fileID: 21300008, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 20
+  - Sprite: {fileID: 21300014, guid: 0fbfea0dafe6db145aeba687e03fae43, type: 3}
+    HealthPercentage: 0
   FoamParticleSystem: {fileID: 198139535061270370}
-  WiggleDampening: 0.1
+  WiggleDampening: 0.3
   Shakes:
   - {fileID: 8300000, guid: 585f3f63b22454542a6456fa983684d5, type: 3}
   - {fileID: 8300000, guid: 8bb86a4ec98498c4ea6aa6f92edbd410, type: 3}

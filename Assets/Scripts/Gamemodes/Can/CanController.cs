@@ -3,16 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public struct CanStates
+{
+    public Sprite Sprite;
+    public float HealthPercentage;
+}
+
 public class CanController : SingletonBehaviour<CanController>
 {
     /* Editor exposed attributes */
     [Header("Game variables")]
     public float Health = 100f;
+    private float startHealth;
 
     [Space()]
     [Header("Visual")]
     public GameObject RendererObject;
-    public Sprite ExplodedSprite;
+    //public Sprite ExplodedSprite;
+    [SerializeField]
+    public CanStates[] VisualStates;
     public ParticleSystem FoamParticleSystem;
     public float WiggleDampening = 1f;
 
@@ -27,6 +37,7 @@ public class CanController : SingletonBehaviour<CanController>
     /* Non-serialized public attributes */
     public Action OnCanBrokenEvent;
 
+    private int currentVisualState;
 
     private SpriteRenderer canRenderer;
 
@@ -47,6 +58,8 @@ public class CanController : SingletonBehaviour<CanController>
         canRenderer = RendererObject.GetComponentInChildren<SpriteRenderer>();
 
         rando = new System.Random();
+        _updateCanSprite();
+        startHealth = Health;
     }
 
     private void Start()
@@ -81,6 +94,19 @@ public class CanController : SingletonBehaviour<CanController>
 
             _onCanBroken();
         }
+
+        _updateCanSprite();
+    }
+
+    private void _updateCanSprite()
+    {
+        if(VisualStates.Length > currentVisualState + 1 
+            && VisualStates[currentVisualState + 1].HealthPercentage >= Health / startHealth * 100f)
+        {
+            // change sprite
+            currentVisualState++;
+            canRenderer.sprite = VisualStates[currentVisualState].Sprite;
+        }
     }
 
     private void _onAccelDataChanged(AccelData data)
@@ -91,7 +117,7 @@ public class CanController : SingletonBehaviour<CanController>
 
     private void _onCanBroken()
     {
-        canRenderer.sprite = ExplodedSprite;
+        //canRenderer.sprite = ExplodedSprite;
         FoamParticleSystem.gameObject.SetActive(true);
 #if UNITY_ANDROID || UNITY_IOS
         Handheld.Vibrate();
