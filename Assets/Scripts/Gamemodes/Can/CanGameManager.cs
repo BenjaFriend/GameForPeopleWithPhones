@@ -13,6 +13,8 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
     
     public Action<float> OnCanShakeEvent;
 
+    private bool _isGameOver;
+
     protected override void setInstance()
     {
         instance = this;
@@ -40,6 +42,8 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             DebugString(" Set the master UI!");
             GameOverlay.Instance.SetMasterClientUI();
         }
+
+        _isGameOver = false;
     }
 
     private void Start()
@@ -76,8 +80,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
         if(eventcode == (byte)Constants.EVENT_ID.CAN_BROKE)
         {
             // If we are the master client, do this stuff
-            if (PhotonNetwork.player.IsMasterClient)
+            if (PhotonNetwork.player.IsMasterClient & !_isGameOver)
             {
+                _isGameOver = true;
                 DebugString("Recieved a network call that the can has broken ON MASTER CLIENT. Sender ID" + senderid.ToString());
 
                 object[] selected = content as object[];
