@@ -12,10 +12,10 @@ namespace Com.PodSquad.GDPPNF
         private static string roomNamePrefKey = "RoomName";
 
         [Header("Network UI")]
-        [Tooltip("The UI panel to lket the user enter theirr name, connect and play")]
-        public GameObject ControlPanel;
+        [Tooltip("The UI panel to lket the user enter their name, connect and play")]
+        public GameObject[] ControlPanels;
         [Tooltip("The UI Label to inform the user htat the connection is in progress")]
-        public GameObject ProgressLabel;
+        public GameObject[] ProgressLabels;
 
         [Space(10)]
         public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
@@ -48,11 +48,17 @@ namespace Com.PodSquad.GDPPNF
 
         void Start()
         {
-            ProgressLabel.SetActive(false);
-            ControlPanel.SetActive(true);
+            foreach(GameObject g in ProgressLabels)
+            {
+                g.SetActive(false);
+            }
+            foreach(GameObject g in ControlPanels)
+            {
+                g.SetActive(true);
+            }
 
             // Automatically connect to the master server on start
-            if(!PhotonNetwork.connected)
+            if (!PhotonNetwork.connected)
             {
                 PhotonNetwork.ConnectUsingSettings(_gameVersion);
             }
@@ -68,8 +74,17 @@ namespace Com.PodSquad.GDPPNF
         /// </summary>
         public void JoinOrCreateSpecificRoom()
         {
-            ProgressLabel.SetActive(true);
-            ControlPanel.SetActive(false);
+
+            foreach (GameObject g in ProgressLabels)
+            {
+                g.SetActive(true);
+            }
+            foreach (GameObject g in ControlPanels)
+            {
+                g.SetActive(false);
+            }
+            //ProgressLabel.SetActive(true);
+            //ControlPanels.SetActive(false);
 
             if (PhotonNetwork.connected)
             {
@@ -157,8 +172,17 @@ namespace Com.PodSquad.GDPPNF
         /// </summary>
         public override void OnDisconnectedFromPhoton()
         {
-            ProgressLabel.SetActive(false);
-            ControlPanel.SetActive(true);
+            foreach (GameObject g in ProgressLabels)
+            {
+                g.SetActive(false);
+            }
+            foreach (GameObject g in ControlPanels)
+            {
+                g.SetActive(true);
+            }
+
+            //ProgressLabel.SetActive(false);
+            //ControlPanel.SetActive(true);
             if (ShowDebug)
                 Debug.LogWarning("<color=yellow>[Launcher]</color>  OnDisconnectedFromPhoton() was called by PUN");
         }

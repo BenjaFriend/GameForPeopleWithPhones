@@ -6,13 +6,20 @@ public class CanSprayOverlayController : MonoBehaviour
 {
     private void Start()
     {
-        CanController.Instance.OnCanBrokenEvent += activateSelf;
+        if(CanController.Instance != null)
+        {
+            CanController.Instance.OnCanBrokenEvent += activateSelf;
+        }
         gameObject.SetActive(false); // deactivate self
     }
 
     private void activateSelf()
     {
         gameObject.SetActive(true);
-        CanController.Instance.OnCanBrokenEvent -= activateSelf;
+
+        if (CanController.Instance != null)
+        {
+            CanController.Instance.OnCanBrokenEvent -= activateSelf;
+        }
     }
 }
