@@ -16,7 +16,8 @@
     public enum EVENT_ID : byte
     {
         CAN_BROKE = 0,
-        CAN_SHAKE = 1        
+        CAN_SHAKE = 1,
+        COUNTDOWN_FINISHED = 3
     }
 
     public static class Mixer

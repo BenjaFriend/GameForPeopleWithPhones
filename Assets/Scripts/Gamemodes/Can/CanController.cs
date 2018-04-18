@@ -41,6 +41,8 @@ public class CanController : SingletonBehaviour<CanController>
 
     private SpriteRenderer canRenderer;
 
+    private bool _isReady = false;
+
     protected override void setInstance()
     {
         instance = this;
@@ -69,6 +71,17 @@ public class CanController : SingletonBehaviour<CanController>
         InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
     }
 
+    private void OnEnable()
+    {
+        PhotonNetwork.OnEventCall += this._onEvent;
+
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.OnEventCall -= this._onEvent;
+    }
+
     protected override void OnDestroy()
     {
         base.OnDestroy();
@@ -79,9 +92,18 @@ public class CanController : SingletonBehaviour<CanController>
         InputManager.Instance.OnAccelDataChanged -= _onAccelDataChanged;
     }
 
+    private void _onEvent(byte eventcode, object content, int senderid)
+    {
+        if (eventcode == (byte)Constants.EVENT_ID.COUNTDOWN_FINISHED)
+        {
+            _isReady = true;
+            Debug.Log("<color=green>[CanController]</color> Is Ready!");
+        }
+    }
+
     private void _onShakeEvent(float intensity)
     {
-        if (Health <= 0) return; // don't do anything if already broken
+        if (Health <= 0 || !_isReady) return; // don't do anything if already broken
 
         _playRandomShake(); // play a random shake sound effect, hopefully the pool size is gucci enough at 10 for max shakes/second :)
 
