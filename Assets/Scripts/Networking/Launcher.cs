@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 namespace Com.PodSquad.GDPPNF
@@ -64,6 +65,36 @@ namespace Com.PodSquad.GDPPNF
             }
         }
 
+        /// <summary>
+        /// If we are running this on the desktop, then automatically start a server
+        /// with a random set of letters
+        /// </summary>
+        private void _autoStartServer()
+        {
+            SetRoomName(_generateRandomRoomName());
+
+            if(ShowDebug)
+                Debug.Log("<color=yellow>[Launcher]</color> Auto-create a server with name " + _roomName);
+
+            JoinOrCreateSpecificRoom();
+        }
+
+        private string _generateRandomRoomName()
+        {
+            // Generate the name
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[5];
+            var random = new System.Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalString = new String(stringChars);
+            return finalString;
+        }
+
         #region Public Methods
         
 
@@ -74,7 +105,7 @@ namespace Com.PodSquad.GDPPNF
         /// </summary>
         public void JoinOrCreateSpecificRoom()
         {
-
+            // Setup the UI as necessary
             foreach (GameObject g in ProgressLabels)
             {
                 g.SetActive(true);
@@ -83,9 +114,8 @@ namespace Com.PodSquad.GDPPNF
             {
                 g.SetActive(false);
             }
-            //ProgressLabel.SetActive(true);
-            //ControlPanels.SetActive(false);
 
+            // Create e room for this
             if (PhotonNetwork.connected)
             {
                 RoomOptions options = new RoomOptions()
@@ -163,8 +193,14 @@ namespace Com.PodSquad.GDPPNF
         /// </summary>
         public override void OnConnectedToMaster()
         {
+            // If we are on a PC, then create a room! 
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_EDITOR
+            _autoStartServer();
+#endif
             if (ShowDebug)
-                Debug.Log("<color=yellow>[Launcher]</color>  OnConnectedToMaster() was called by PUN");       
+            {
+                Debug.Log("<color=yellow>[Launcher]</color>  OnConnectedToMaster() was called by PUN");
+            }
         }
 
         /// <summary>
