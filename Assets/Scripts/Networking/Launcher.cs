@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Com.PodSquad.GDPPNF
 {
+    /// <summary>
+    /// Behvaior for the launcher scene that either auto creates a server, 
+    /// or provide the functionality to the client to join a room and 
+    /// set their player name
+    /// </summary>
     public class Launcher : Photon.PunBehaviour
     {
         #region Fields
@@ -17,6 +22,8 @@ namespace Com.PodSquad.GDPPNF
         public GameObject[] ControlPanels;
         [Tooltip("The UI Label to inform the user htat the connection is in progress")]
         public GameObject[] ProgressLabels;
+        [Tooltip("A text element that we want to use to tell the client if something has gone wrong")]
+        public UnityEngine.UI.Text ClientErrorText;
 
         [Space(10)]
         public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
@@ -35,7 +42,9 @@ namespace Com.PodSquad.GDPPNF
 
         #endregion
 
-        void Awake()
+        #region Private Methods
+
+        private void Awake()
         {
             // we don't join the lobby. There is no need to join a lobby to get the list of rooms.
             PhotonNetwork.autoJoinLobby = false;
@@ -47,7 +56,7 @@ namespace Com.PodSquad.GDPPNF
             PhotonNetwork.logLevel = Loglevel;
         }
 
-        void Start()
+        private void Start()
         {
             foreach(GameObject g in ProgressLabels)
             {
@@ -76,9 +85,13 @@ namespace Com.PodSquad.GDPPNF
             if(ShowDebug)
                 Debug.Log("<color=yellow>[Launcher]</color> Auto-create a server with name " + _roomName);
 
-            JoinOrCreateSpecificRoom();
+            CreateSpecificRoom();
         }
 
+        /// <summary>
+        /// Generated a random assortment of letters
+        /// </summary>
+        /// <returns>A string of length 5 to be used as a random room name</returns>
         private string _generateRandomRoomName()
         {
             // Generate the name
@@ -95,15 +108,12 @@ namespace Com.PodSquad.GDPPNF
             return finalString;
         }
 
-        #region Public Methods
-        
-
         /// <summary>
-        /// Try and join a room with teh given room name from the user
-        ///  - If this room does not exist, then create it.
+        /// try and create a room with the given room name
+        ///  - Create the room with a specific name
         ///  - Show the "Connecting" UI
         /// </summary>
-        public void JoinOrCreateSpecificRoom()
+        private void CreateSpecificRoom()
         {
             // Setup the UI as necessary
             foreach (GameObject g in ProgressLabels)
@@ -122,10 +132,10 @@ namespace Com.PodSquad.GDPPNF
                 {
                     MaxPlayers = MaxPlayersPerRoom,
                     IsVisible = true
-                    // TODO: Make a hashtable??
+                    // TODO: Make a hashtable for this data??
                 };
 
-                PhotonNetwork.JoinOrCreateRoom(_roomName, options, null);
+                PhotonNetwork.CreateRoom(_roomName, options, null);
             }
             else
             {
@@ -133,14 +143,30 @@ namespace Com.PodSquad.GDPPNF
             }
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
-        /// Creates a random room, used as a failsafe for if we cannot make a new room.
+        /// Attempt to join a room with the given name.
+        /// - If we are not connected, then we need to 
         /// </summary>
-        public void CreateRandomRoom()
+        public void JoinSpecificRoom()
         {
+            // Setup the UI as necessary
+            foreach (GameObject g in ProgressLabels)
+            {
+                g.SetActive(true);
+            }
+            foreach (GameObject g in ControlPanels)
+            {
+                g.SetActive(false);
+            }
+
+            // Create e room for this
             if (PhotonNetwork.connected)
             {
-                PhotonNetwork.JoinOrCreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
+                PhotonNetwork.JoinRoom(_roomName);
             }
             else
             {
@@ -176,18 +202,6 @@ namespace Com.PodSquad.GDPPNF
         }
 
         /// <summary>
-        /// If we fail to join a random room, then make a new random room. 
-        /// </summary>
-        /// <param name="codeAndMsg"></param>
-        public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
-        {
-            if(ShowDebug)
-                Debug.Log("<color=yellow>[Launcher]</color> OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-            // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-            CreateRandomRoom();
-        }
-
-        /// <summary>
         /// We are connected to the master server, which just means the Photon cloud services
         /// that are used to match make the rooms.
         /// </summary>
@@ -200,7 +214,7 @@ namespace Com.PodSquad.GDPPNF
             if (ShowDebug)
             {
                 Debug.Log("<color=yellow>[Launcher]</color>  OnConnectedToMaster() was called by PUN");
-            }
+            }            
         }
 
         /// <summary>
@@ -233,6 +247,12 @@ namespace Com.PodSquad.GDPPNF
                 Debug.LogWarningFormat(
                 "<color=yellow>[Launcher]</color>  OnPhotonJoinRoomFailed() was called by PUN\nError Code {0} {1}",
                  codeAndMsg[0], codeAndMsg[1]);
+
+            if(ClientErrorText != null)
+            {
+                // Display this in our room name
+                ClientErrorText.text = "Could not connect to room " + _roomName + "\nMake sure you typed it correctly!";
+            }
         }
 
         /// <summary>
@@ -242,9 +262,11 @@ namespace Com.PodSquad.GDPPNF
         public override void OnPhotonCreateRoomFailed(object[] codeAndMsg)
         {
             if (ShowDebug)
+            {
                 Debug.LogWarningFormat(
-                "<color=yellow>[Launcher]</color>  OnPhotonCreateRoomFailed() was called by PUN\nError Code {0} {1}",
-                 codeAndMsg[0], codeAndMsg[1]);
+                    "<color=yellow>[Launcher]</color>  OnPhotonCreateRoomFailed() was called by PUN\nError Code {0} {1}",
+                    codeAndMsg[0], codeAndMsg[1]);
+            }
         }
 
         #endregion
