@@ -11,8 +11,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
 
     public GameObject CanPrefab;
 
-    public int CountdownLength = 5;
-    
+    public int StartCountdownLength = 5;
+    public int RestartCountdownLength = 5;
+
     public Action<float> OnCanShakeEvent;
 
     private bool _isGameOver;
@@ -85,10 +86,10 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
 
     private void _startCountdown()
     {
-        StartCoroutine(_countdownRoutine(CountdownLength));
+        StartCoroutine(_countdownRoutine(StartCountdownLength, true, _countDownFinished));
     }
 
-    private IEnumerator _countdownRoutine(int length)
+    private IEnumerator _countdownRoutine(int length, bool showCountdown, Func<byte> countdownOverFunc)
     {
         if (length <= 0)
         {
@@ -98,20 +99,21 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
         for(int i = length; i >= 0; i--)
         {
             DebugString("Countdown: " + i.ToString());
-            // Tell the Game overlay script about this
-            GameOverlay.Instance.SetCountdwonText(i);
+            if(showCountdown)            
+                GameOverlay.Instance.SetCountdwonText(i);
+
             yield return new WaitForSeconds(1f);
         }
 
-        _countDownFinished();
+        countdownOverFunc();
     }
 
     /// <summary>
     /// Send the countdown finished event to all the others
     /// </summary>
-    private void _countDownFinished()
+    private byte _countDownFinished()
     {
-        if (!PhotonNetwork.player.IsMasterClient) return;
+        if (!PhotonNetwork.player.IsMasterClient) return 0;
 
         // Send this event over the network to the master client (the web view)
         byte evCode = (byte)Constants.EVENT_ID.START_COUNTDOWN_FINISHED;
@@ -128,6 +130,17 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
        );
 
         DebugString("Countdown Finished! Event Sent!");
+        return 1;
+    }
+
+    private byte _restartGame()
+    {
+        if (!PhotonNetwork.player.IsMasterClient) return 0;
+
+        PhotonNetwork.LoadLevel(Constants.SceneNames.LobbyRoom);
+
+        DebugString("RESTART THE GAME! ");
+        return 1;
     }
 
     private void _onAccelDataChanged(AccelData data)
@@ -146,6 +159,12 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             OnCanShakeEvent(intensity);
     }
 
+    /// <summary>
+    /// Handle 
+    /// </summary>
+    /// <param name="eventcode"></param>
+    /// <param name="content"></param>
+    /// <param name="senderid"></param>
     private void _onEvent(byte eventcode, object content, int senderid)
     {
         if(eventcode == (byte)Constants.EVENT_ID.CAN_BROKE)
@@ -163,6 +182,8 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
                 {
                     GameOverlay.Instance.SetMasterGameOver(name);
                     _isGameOver = true;
+                    // Start the countdown for auto restarting
+                    StartCoroutine(_countdownRoutine(RestartCountdownLength, false, _restartGame));
                 }
                 _winnersList.Add(name);
                 // TODO: Update the list of winners on the server UI
