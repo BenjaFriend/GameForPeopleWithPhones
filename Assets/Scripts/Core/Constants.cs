@@ -17,7 +17,7 @@
     {
         CAN_BROKE = 0,
         CAN_SHAKE = 1,
-        COUNTDOWN_FINISHED = 3
+        START_COUNTDOWN_FINISHED = 3
     }
 
     public static class Mixer

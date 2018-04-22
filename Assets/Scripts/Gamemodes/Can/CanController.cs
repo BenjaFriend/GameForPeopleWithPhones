@@ -95,7 +95,7 @@ public class CanController : SingletonBehaviour<CanController>
 
     private void _onEvent(byte eventcode, object content, int senderid)
     {
-        if (eventcode == (byte)Constants.EVENT_ID.COUNTDOWN_FINISHED)
+        if (eventcode == (byte)Constants.EVENT_ID.START_COUNTDOWN_FINISHED)
         {
             _isReady = true;
             Debug.Log("<color=green>[CanController]</color> Is Ready!");
