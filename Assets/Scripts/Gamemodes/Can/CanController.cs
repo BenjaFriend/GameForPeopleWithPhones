@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoreMountains.NiceVibrations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,6 +108,11 @@ public class CanController : SingletonBehaviour<CanController>
 
         _playRandomShake(); // play a random shake sound effect, hopefully the pool size is gucci enough at 10 for max shakes/second :)
 
+        // shake vibration
+#if UNITY_ANDROID || UNITY_IOS
+        MMVibrationManager.Haptic(HapticTypes.LightImpact);
+#endif
+
         // "hurt" can
         Health -= intensity + 1f;
         if (Health <= 0)
@@ -122,7 +128,7 @@ public class CanController : SingletonBehaviour<CanController>
 
     private void _updateCanSprite()
     {
-        if(VisualStates.Length > currentVisualState + 1 
+        if (VisualStates.Length > currentVisualState + 1
             && VisualStates[currentVisualState + 1].HealthPercentage >= Health / startHealth * 100f)
         {
             // change sprite
@@ -142,7 +148,7 @@ public class CanController : SingletonBehaviour<CanController>
         //canRenderer.sprite = ExplodedSprite;
         FoamParticleSystem.gameObject.SetActive(true);
 #if UNITY_ANDROID || UNITY_IOS
-        Handheld.Vibrate();
+        MMVibrationManager.Haptic(HapticTypes.HeavyImpact);
 #endif
         _dispatchOnCanBroken();
     }
