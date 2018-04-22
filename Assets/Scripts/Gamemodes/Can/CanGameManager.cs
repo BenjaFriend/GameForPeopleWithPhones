@@ -95,9 +95,11 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             yield break;
         }
 
-        for(int i = 0; i < length; i++)
+        for(int i = length; i >= 0; i--)
         {
             DebugString("Countdown: " + i.ToString());
+            // Tell the Game overlay script about this
+            GameOverlay.Instance.SetCountdwonText(i);
             yield return new WaitForSeconds(1f);
         }
 
@@ -112,7 +114,7 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
         if (!PhotonNetwork.player.IsMasterClient) return;
 
         // Send this event over the network to the master client (the web view)
-        byte evCode = (byte)Constants.EVENT_ID.COUNTDOWN_FINISHED;
+        byte evCode = (byte)Constants.EVENT_ID.START_COUNTDOWN_FINISHED;
         bool reliable = true;
         RaiseEventOptions options = new RaiseEventOptions()
         {
@@ -163,7 +165,7 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
                     _isGameOver = true;
                 }
                 _winnersList.Add(name);
-                // TODO: Update the list of winners on the server
+                // TODO: Update the list of winners on the server UI
             }
             else
             {
@@ -197,6 +199,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
 
     private void DebugString(string content)
     {
-        Debug.Log("<color=pink>[CanGameManager]</color> " + content);
+        if(ShowDebug)
+        {
+            Debug.Log("<color=pink>[CanGameManager]</color> " + content);
+        }
     }
 }

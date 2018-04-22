@@ -16,6 +16,9 @@ public class GameOverlay : SingletonBehaviour<GameOverlay>
     public Image MasterGameOverScreen;
     public Text MasterGameOverPlayerText;
 
+    [Header("Countdown UI")]
+    public Text CountdownText;
+
     [Space()]
     [Header("Animation")]
     public float FadeInTime;
@@ -63,6 +66,20 @@ public class GameOverlay : SingletonBehaviour<GameOverlay>
         if (NormalClientUI != null)
         {
             NormalClientUI.SetActive(false);
+        }
+    }
+
+    public void SetCountdwonText(int num)
+    {
+        if (CountdownText == null) return;
+
+        if(num == 0)
+        {
+            CountdownText.text = "SHAKE 'EM!";
+        }
+        else
+        {
+            CountdownText.text = num.ToString();
         }
     }
 

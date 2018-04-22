@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Com.PodSquad.GDPPNF
 {
+    /// <summary>
+    /// Container class for easily setting the UI options on player info
+    /// stuff
+    /// </summary>
     public class PlayerInfoPanel : MonoBehaviour
     {
         [Tooltip("The text element to display the player name")]

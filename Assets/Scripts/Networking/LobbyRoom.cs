@@ -97,7 +97,7 @@ namespace Com.PodSquad.GDPPNF
 
         public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
         {
-            DebugString("Someone has joined a room!");
+            DebugString("Someone has left a room!");
             UpdateConnectedPlayers();
             base.OnPhotonPlayerDisconnected(otherPlayer);
         }
