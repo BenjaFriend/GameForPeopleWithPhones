@@ -19,6 +19,13 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
     private List<string> _winnersList = new List<string>();
     private int _currentlyReadyPlayers = 0;
 
+    [Space(10)]
+    [Header("Music")]
+    public AudioClip ServerMusic;
+    public AudioClip OneShotMusic;
+    private PooledAudioSource _musicSource;
+    private PooledAudioSource _oneShotSource;
+
     protected override void setInstance()
     {
         instance = this;
@@ -66,6 +73,9 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
     private void OnDisable()
     {
         PhotonNetwork.OnEventCall -= this._onEvent;
+
+        if (_musicSource != null)
+            _musicSource.Stop();
     }
 
     /// <summary>
@@ -76,6 +86,8 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
         if(PhotonNetwork.player.IsMasterClient)
         {
             // TODO: Play main game loop that will play on the server
+            if (_musicSource == null)
+                _musicSource = AudioManager.Instance.Play(ServerMusic, AudioPoolType.Music, Constants.Mixer.Mixers.Master.Music.Name, true, () => { _musicSource = null; });
         }
         else
         {
@@ -164,6 +176,21 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
                 }
                 _winnersList.Add(name);
                 // TODO: Update the list of winners on the server
+
+
+                // Play the one shot when someone wins
+                if (_musicSource != null)
+                {
+                    // pause normal music loop
+                    _musicSource.Pause();
+
+                    // play the oneshot - once done, resume normal music loop
+                    AudioManager.Instance.Play(ServerMusic, AudioPoolType.Music, Constants.Mixer.Mixers.Master.Music.Name, false, () => { _musicSource.Play(); });
+                }
+                else
+                {
+                    DebugString("Tried to play winning one shot - but " + _musicSource.ToString() + " was null for some reason.");
+                }
             }
             else
             {

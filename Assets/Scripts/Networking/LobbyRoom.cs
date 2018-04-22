@@ -47,7 +47,7 @@ namespace Com.PodSquad.GDPPNF
 
             if (RoomNameText != null)
             {
-                RoomNameText.text = PhotonNetwork.room.Name;
+                RoomNameText.text = "Room Name: " + PhotonNetwork.room.Name;
             }
             else
             {
@@ -127,12 +127,12 @@ namespace Com.PodSquad.GDPPNF
         {
             if(ConnectedPlayerUIPrefab == null)
             {
-                DebugString("Cannot Updoated connected players UI because the ConnectedPlayerUIPrefab is null!");
+                DebugString("Cannot update connected players UI because the ConnectedPlayerUIPrefab is null!");
                 return;
             }
             if(ConnectedPlayersParentTransform == null)
             {
-                DebugString("Cannot Updoated connected players UI because the ConnectedPlayersParentTransform is null!");
+                DebugString("Cannot update connected players UI because the ConnectedPlayersParentTransform is null!");
                 return;
             }
 
