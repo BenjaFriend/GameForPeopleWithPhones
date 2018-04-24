@@ -208,7 +208,7 @@ namespace Com.PodSquad.GDPPNF
         public override void OnConnectedToMaster()
         {
             // If we are on a PC, then create a room! 
-#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN
             _autoStartServer();
 #endif
             if (ShowDebug)

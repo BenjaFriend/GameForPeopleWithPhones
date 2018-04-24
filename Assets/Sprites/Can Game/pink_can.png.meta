@@ -3,7 +3,25 @@ guid: 2686fae9079607a44a586d29ea50ac5d
 timeCreated: 1524526791
 licenseType: Pro
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: pink_can_0
+    21300002: pink_can_1
+    21300004: pink_can_2
+    21300006: pink_can_3
+    21300008: pink_can_4
+    21300010: pink_can_7
+    21300012: pink_can_6
+    21300014: pink_can_8
+    21300016: pink_can_5
+    21300018: pink_can_9
+    21300020: pink_can_10
+    21300022: pink_can_11
+    21300024: pink_can_12
+    21300026: pink_can_13
+    21300028: pink_can_14
+    21300030: pink_can_15
+    21300032: pink_can_16
+    21300034: pink_can_17
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +58,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -66,9 +84,281 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: pink_can_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 2389
+        width: 332
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_1
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 2389
+        width: 332
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_2
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 2389
+        width: 339
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_3
+      rect:
+        serializedVersion: 2
+        x: 1483
+        y: 2389
+        width: 351
+        height: 551
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_4
+      rect:
+        serializedVersion: 2
+        x: 1963
+        y: 2371
+        width: 375
+        height: 553
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_7
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 1635
+        width: 525
+        height: 632
+      alignment: 9
+      pivot: {x: 0.44219634, y: 0.41976967}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_6
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 1635
+        width: 373
+        height: 595
+      alignment: 9
+      pivot: {x: 0.5544851, y: 0.44026124}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_8
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 1635
+        width: 525
+        height: 656
+      alignment: 9
+      pivot: {x: 0.4182815, y: 0.39722145}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_5
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 1636
+        width: 333
+        height: 529
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_9
+      rect:
+        serializedVersion: 2
+        x: 2042
+        y: 1635
+        width: 406
+        height: 564
+      alignment: 9
+      pivot: {x: 0.4250819, y: 0.44686934}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_10
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 939
+        width: 368
+        height: 521
+      alignment: 9
+      pivot: {x: 0.54964, y: 0.49999976}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_11
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 939
+        width: 344
+        height: 519
+      alignment: 9
+      pivot: {x: 0.5124948, y: 0.49999976}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_12
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 939
+        width: 362
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_13
+      rect:
+        serializedVersion: 2
+        x: 1508
+        y: 939
+        width: 370
+        height: 509
+      alignment: 9
+      pivot: {x: 0.5319461, y: 0.49999976}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_14
+      rect:
+        serializedVersion: 2
+        x: 2022
+        y: 925
+        width: 373
+        height: 507
+      alignment: 9
+      pivot: {x: 0.51728487, y: 0.51483554}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_15
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 98
+        width: 373
+        height: 507
+      alignment: 9
+      pivot: {x: 0.5220215, y: 0.51215106}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_16
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 98
+        width: 373
+        height: 507
+      alignment: 9
+      pivot: {x: 0.5247744, y: 0.5121513}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pink_can_17
+      rect:
+        serializedVersion: 2
+        x: 1084
+        y: 111
+        width: 331
+        height: 494
+      alignment: 9
+      pivot: {x: 0.512408, y: 0.50415707}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 

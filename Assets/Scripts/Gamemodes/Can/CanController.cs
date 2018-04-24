@@ -26,6 +26,7 @@ public class CanController : SingletonBehaviour<CanController>
     public CanStates[] VisualStates;
     public ParticleSystem FoamParticleSystem;
     public float WiggleDampening = 1f;
+    public float ExplodeAnimationFrameLength;
 
     [Space()]
     [Header("SFX")]
@@ -43,6 +44,8 @@ public class CanController : SingletonBehaviour<CanController>
     private SpriteRenderer canRenderer;
 
     private bool _isReady = false;
+
+    private float _frameTime;
 
     protected override void setInstance()
     {
@@ -70,6 +73,11 @@ public class CanController : SingletonBehaviour<CanController>
         // add shake event listener
         CanGameManager.Instance.OnCanShakeEvent += _onShakeEvent;
         InputManager.Instance.OnAccelDataChanged += _onAccelDataChanged;
+    }
+
+    private void Update()
+    {
+        _updateCanSprite();
     }
 
     private void OnEnable()
@@ -123,17 +131,27 @@ public class CanController : SingletonBehaviour<CanController>
             _onCanBroken();
         }
 
-        _updateCanSprite();
     }
 
     private void _updateCanSprite()
     {
         if (VisualStates.Length > currentVisualState + 1
-            && VisualStates[currentVisualState + 1].HealthPercentage >= Health / startHealth * 100f)
+            && VisualStates[currentVisualState + 1].HealthPercentage >= Health / startHealth * 100f
+            && _frameTime <= 0)
         {
             // change sprite
             currentVisualState++;
             canRenderer.sprite = VisualStates[currentVisualState].Sprite;
+
+            // reset frame timer
+            if (VisualStates[currentVisualState].HealthPercentage == 0)
+                _frameTime = ExplodeAnimationFrameLength;
+            else
+                _frameTime = 0;
+        }
+        else
+        {
+            _frameTime -= Time.deltaTime;
         }
     }
 
