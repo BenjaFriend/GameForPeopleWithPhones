@@ -19,7 +19,7 @@ public class PlatformSpecificObjects : MonoBehaviour
 
     private void _init()
     {
-#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN 
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_EDITOR
 
         foreach(GameObject g in DesktopObjects)
         {

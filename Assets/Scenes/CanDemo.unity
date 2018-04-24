@@ -552,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &432250358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1372,7 +1372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1927447267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2129,6 +2129,10 @@ Prefab:
       propertyPath: CountdownText
       value: 
       objectReference: {fileID: 2097554535}
+    - target: {fileID: 1987196457209384, guid: 85debb5359403e84aaa45d1ecf5a94d9, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 85debb5359403e84aaa45d1ecf5a94d9, type: 2}
   m_IsPrefabParent: 0
