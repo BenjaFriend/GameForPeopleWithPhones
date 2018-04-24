@@ -114,10 +114,33 @@ public class CanGameManager : SingletonBehaviour<CanGameManager>
             if(showCountdown)            
                 GameOverlay.Instance.SetCountdwonText(i);
 
+            // Dispatch the countdown event
+            _dispatchCountdownEvent((byte)i);
+
             yield return new WaitForSeconds(1f);
         }
 
         countdownOverFunc();
+    }
+
+    private void _dispatchCountdownEvent(byte number)
+    {
+        // Make sure we only run this on the server
+        if(!PhotonNetwork.player.IsMasterClient) return;
+
+        byte evCode = (byte)Constants.EVENT_ID.COUNTDOWN_TICK;
+        object[] content = { number };
+        bool reliable = true;
+        RaiseEventOptions options = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.Others  
+        };
+        PhotonNetwork.RaiseEvent(
+            evCode,
+            content,
+            reliable,
+            options
+       );
     }
 
     /// <summary>
