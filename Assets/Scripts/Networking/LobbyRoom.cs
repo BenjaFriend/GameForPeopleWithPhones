@@ -145,10 +145,10 @@ namespace Com.PodSquad.GDPPNF
             foreach (PhotonPlayer p in  PhotonNetwork.playerList)
             {
                 // If the player happens to be the server client, skip it
-                //if (p.NickName == string.Empty)
-                //{
-                //    continue;
-                //}
+                if (p.NickName == string.Empty)
+                {
+                    continue;
+                }
 
                 // Otherwise add this to the connected player UI
                 PlayerInfoPanel info = Instantiate(ConnectedPlayerUIPrefab, ConnectedPlayersParentTransform).GetComponent<PlayerInfoPanel>();
