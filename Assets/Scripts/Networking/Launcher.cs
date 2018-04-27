@@ -31,6 +31,9 @@ namespace Com.PodSquad.GDPPNF
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
         public byte MaxPlayersPerRoom = 4;
 
+        [Tooltip("The max timeout for PUN Network")]
+        public float MaxTimeout = 10.0f;
+
         /// <summary>
         /// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
         /// </summary>
@@ -54,6 +57,9 @@ namespace Com.PodSquad.GDPPNF
 
             // Force the log level to this
             PhotonNetwork.logLevel = Loglevel;
+
+            // Set the max timeout
+            PhotonNetwork.BackgroundTimeout = MaxTimeout;
         }
 
         private void Start()
@@ -65,6 +71,16 @@ namespace Com.PodSquad.GDPPNF
             foreach(GameObject g in ControlPanels)
             {
                 g.SetActive(true);
+            }
+
+            if (ClientErrorText != null)
+            {
+                // Display this in our room name
+                ClientErrorText.text = "";
+            }
+            else
+            {
+                Debug.Log("<color=yellow>[Launcher]</color> The Client error text is null!");
             }
 
             // Automatically connect to the master server on start
@@ -95,7 +111,7 @@ namespace Com.PodSquad.GDPPNF
         private string _generateRandomRoomName()
         {
             // Generate the name
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var stringChars = new char[5];
             var random = new System.Random();
 
@@ -185,6 +201,21 @@ namespace Com.PodSquad.GDPPNF
             PlayerPrefs.SetString(roomNamePrefKey, value);
         }
 
+        public void CancelJoin()
+        {
+            // Show the other menus
+            foreach (GameObject g in ProgressLabels)
+            {
+                g.SetActive(false);
+            }
+            foreach (GameObject g in ControlPanels)
+            {
+                g.SetActive(true);
+            }
+
+            PhotonNetwork.Disconnect();
+        }
+
         #endregion
 
         #region Photon.PunBehaviour CallBacks
@@ -208,7 +239,7 @@ namespace Com.PodSquad.GDPPNF
         public override void OnConnectedToMaster()
         {
             // If we are on a PC, then create a room! 
-#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_WEBGL || UNITY_STANDALONE_WIN
             _autoStartServer();
 #endif
             if (ShowDebug)
@@ -229,6 +260,12 @@ namespace Com.PodSquad.GDPPNF
             foreach (GameObject g in ControlPanels)
             {
                 g.SetActive(true);
+            }
+
+            // Automatically connect to the master server on start
+            if (!PhotonNetwork.connected)
+            {
+                PhotonNetwork.ConnectUsingSettings(_gameVersion);
             }
 
             //ProgressLabel.SetActive(false);
@@ -253,6 +290,12 @@ namespace Com.PodSquad.GDPPNF
                 // Display this in our room name
                 ClientErrorText.text = "Could not connect to room " + _roomName + "\nMake sure you typed it correctly!";
             }
+            else
+            {
+                Debug.Log("<color=yellow>[Launcher]</color> The Client error text is null!");
+            }
+
+            CancelJoin();
         }
 
         /// <summary>
