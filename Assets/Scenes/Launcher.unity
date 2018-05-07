@@ -556,8 +556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.05000305, y: 1.1499999}
-  m_SizeDelta: {x: -14.5, y: -11.099999}
+  m_AnchoredPosition: {x: 11.5, y: 1.1499999}
+  m_SizeDelta: {x: -37.5, y: -11.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &191345732
 MonoBehaviour:
@@ -1033,7 +1033,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 46916e9d027e38d47a2cce5288d90876, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1527,8 +1527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.05000305, y: 1.1499999}
-  m_SizeDelta: {x: -14.5, y: -11.099999}
+  m_AnchoredPosition: {x: 9.799988, y: 1.1499999}
+  m_SizeDelta: {x: -34.2, y: -11.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &471327733
 MonoBehaviour:
@@ -1995,8 +1995,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.05000305, y: 1.1499999}
-  m_SizeDelta: {x: -14.5, y: -11.099999}
+  m_AnchoredPosition: {x: 11.475, y: 1.1499999}
+  m_SizeDelta: {x: -37.55, y: -11.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &841644463
 MonoBehaviour:
@@ -2572,7 +2572,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 60}
+  m_SizeDelta: {x: 500.39, y: 60}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1117386402
 MonoBehaviour:
@@ -2667,8 +2667,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 49c283e4161370c46a3ba6198beac705, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3115,8 +3115,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 49c283e4161370c46a3ba6198beac705, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3362,7 +3362,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1435324181}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -4046,8 +4046,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.05000305, y: 1.1499999}
-  m_SizeDelta: {x: -14.5, y: -11.099999}
+  m_AnchoredPosition: {x: 9.800018, y: 1.149998}
+  m_SizeDelta: {x: -34.2, y: -11.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1968281554
 MonoBehaviour:
@@ -4123,7 +4123,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 140}
+  m_SizeDelta: {x: 501.98, y: 174.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2016484075
 MonoBehaviour:
@@ -4196,9 +4196,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: 3c1fb7ebcd4af0a429d6484baf1f7da2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
